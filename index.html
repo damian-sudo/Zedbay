@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZedBay Gadgets – Premium Tech Accessories</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0f0f0f;
+    --white: #ffffff;
+    --gray-50: #f9f9f8;
+    --gray-100: #f0efed;
+    --gray-200: #e0deda;
+    --gray-400: #9e9b96;
+    --gray-700: #3a3935;
+    --accent: #1a6b45;
+    --accent-light: #e8f5ef;
+    --accent-mid: #2d9e6b;
+    --wa-green: #25D366;
+    --wa-dark: #128C7E;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--gray-50);
+    color: var(--black);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-200);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 0 2rem;
+  }
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: var(--accent);
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .logo-icon svg { width: 20px; height: 20px; fill: white; }
+  .logo-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--black);
+    letter-spacing: -0.3px;
+  }
+  .logo-name span { color: var(--accent); }
+  .nav-wa {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--wa-green);
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .nav-wa:hover { background: var(--wa-dark); }
+  .nav-wa svg { width: 16px; height: 16px; fill: white; flex-shrink: 0; }
+
+  /* HERO */
+  .hero {
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-200);
+    padding: 3.5rem 2rem;
+    text-align: center;
+  }
+  .hero-inner { max-width: 600px; margin: 0 auto; }
+  .hero-badge {
+    display: inline-block;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 50px;
+    margin-bottom: 1.2rem;
+  }
+  .hero h1 {
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 600;
+    letter-spacing: -0.8px;
+    line-height: 1.2;
+    color: var(--black);
+    margin-bottom: 1rem;
+  }
+  .hero p {
+    font-size: 16px;
+    color: var(--gray-400);
+    margin-bottom: 1.5rem;
+  }
+  .hero-wa {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--wa-green);
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 12px 24px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .hero-wa:hover { background: var(--wa-dark); transform: translateY(-1px); }
+  .hero-wa svg { width: 20px; height: 20px; fill: white; }
+
+  /* FILTER BAR */
+  .filter-bar {
+    max-width: 1100px;
+    margin: 2rem auto 0;
+    padding: 0 2rem;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    color: var(--gray-700);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 7px 16px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+
+  /* CATALOGUE GRID */
+  .catalogue {
+    max-width: 1100px;
+    margin: 1.5rem auto 4rem;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+  }
+
+  /* PRODUCT CARD */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .card:hover { border-color: var(--gray-400); transform: translateY(-2px); }
+  .card[data-hidden="true"] { display: none; }
+
+  .card-img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: var(--gray-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 56px;
+    user-select: none;
+  }
+
+  .card-body {
+    padding: 1rem 1.1rem 1.1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .card-category {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .card-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--black);
+    line-height: 1.35;
+  }
+  .card-desc {
+    font-size: 13px;
+    color: var(--gray-400);
+    line-height: 1.5;
+    flex: 1;
+  }
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--gray-100);
+  }
+  .card-price {
+    font-family: 'DM Mono', monospace;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--black);
+  }
+  .card-price span {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--gray-400);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .card-wa {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--wa-green);
+    color: white;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 7px 14px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .card-wa:hover { background: var(--wa-dark); }
+  .card-wa svg { width: 14px; height: 14px; fill: white; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 13px;
+    color: var(--gray-400);
+    border-top: 1px solid var(--gray-200);
+    background: var(--white);
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    nav { padding: 0 1rem; }
+    .hero { padding: 2.5rem 1rem; }
+    .filter-bar { padding: 0 1rem; }
+    .catalogue { padding: 0 1rem; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
+    .card-img { font-size: 40px; }
+    .nav-wa .wa-label { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="logo" href="#">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+      </div>
+      <span class="logo-name">ZedBay <span>Gadgets</span></span>
+    </a>
+    <a class="nav-wa" href="https://wa.me/260975436254" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.532 5.843L.05 23.5l5.79-1.47A11.941 11.941 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.647-.494-5.17-1.355l-.37-.217-3.438.872.902-3.337-.24-.385A9.942 9.942 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+      <span class="wa-label">Chat with us</span>
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Kitwe, Zambia</div>
+    <h1>Premium Tech Accessories at Great Prices</h1>
+    <p>Earbuds, chargers, cables, headsets & more — quality guaranteed. Order via WhatsApp for fast delivery.</p>
+    <a class="hero-wa" href="https://wa.me/260975436254?text=Hi%20ZedBay%20Gadgets!%20I'd%20like%20to%20order%20a%20product." target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.532 5.843L.05 23.5l5.79-1.47A11.941 11.941 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.647-.494-5.17-1.355l-.37-.217-3.438.872.902-3.337-.24-.385A9.942 9.942 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+      Order on WhatsApp
+    </a>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterCards('all', this)">All Products</button>
+  <button class="filter-btn" onclick="filterCards('earbuds', this)">Earbuds & AirPods</button>
+  <button class="filter-btn" onclick="filterCards('headset', this)">Headsets</button>
+  <button class="filter-btn" onclick="filterCards('charger', this)">Chargers</button>
+  <button class="filter-btn" onclick="filterCards('cable', this)">USB Cables</button>
+  <button class="filter-btn" onclick="filterCards('accessories', this)">Accessories</button>
+</div>
+
+<!-- CATALOGUE -->
+<div class="catalogue" id="catalogue">
+
+  <!-- EARBUDS -->
+  <div class="card" data-category="earbuds">
+    <div class="card-img">🎧</div>
+    <div class="card-body">
+      <div class="card-category">Earbuds</div>
+      <div class="card-name">AirPods Pro (2nd Gen) – Clone</div>
+      <div class="card-desc">Active noise cancellation, transparency mode, touch controls. Great battery life.</div>
+      <div class="card-footer">
+        <div class="card-price">K 350 <span>each</span></div>
+        <a class="card-wa" href="https://wa.me/260975436254?text=Hi!%20I'm%20interested%20in%20the%20AirPods%20Pro%20(2nd%20Gen)%20Clone%20at%20K350." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.532 5.843L.05 23.5l5.79-1.47A11.941 11.941 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.647-.494-5.17-1.355l-.37-.217-3.438.872.902-3.337-.24-.385A9.942 9.942 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Order
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-category="earbuds">
+    <div class="card-img">🎵</div>
+    <div class="card-body">
+      <div class="card-category">Earbuds</div>
+      <div class="card-name">TWS Wireless Earbuds</div>
+      <div class="card-desc">Bluetooth 5.3, stereo sound, 6hr playtime + charging case. Sweat-resistant.</div>
+      <div class="card-footer">
+        <div class="card-price">K 180 <span>each</span></div>
+        <a class="card-wa" href="https://wa.me/260975436254?text=Hi!%20I'm%20interested%20in%20the%20TWS%20Wireless%20Earbuds%20at%20K180." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.532 5.843L.05 23.5l5.79-1.47A11.941 11.941 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.647-.494-5.17-1.355l-.37-.217-3.438.872.902-3.337-.24-.385A9.942 9.942 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Order
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- JBL HEADSETS -->
+  <div class="card" data-category="headset">
+    <div class="card-img">🎼</div>
+    <div class="card-body">
+      <div class="card-category">Headset</div>
+      <div class="card-name">JBL Tune 510BT</div>
+      <div class="card-desc">On-ear wireless headset, 40hr battery, JBL Pure Bass sound, foldable design.</div>
+      <div class="card-footer">
+        <div class="card-price">K 420 <span>each</span></div>
+        <a class="card-wa" href="https://wa.me/260975436254?text=Hi!%20I'm%20interested%20in%20the%20JBL%20Tune%20510BT%20at%20K420." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.532 5.843L.05 23.5l5.79-1.47A11.941 11.941 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.647-.494-5.17-1.355l-.37-.217-3.438.872.902-3.337-.24-.385A9.942 9.942 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Order
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-category="headset">
+    <div class="card-img">🔊</div>
+    <div class="card-body">
+      <div class="card-category">Headset</div>
+      <div class="card-name">JBL Tune 670NC</div>
+      <div class="card-desc">Adaptive noise cancelling, 70hr battery, multi-point connection, premium audio.</div>
+      <div class="card-footer">
+        <div class="card-price">K 680 <span>each</span></div>
+        <a class="card-wa" href="https://wa.me/260975436254?text=Hi!%20I'm%20interested%20in%20the%20JBL%20Tune%20670NC%20at%20K680." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.532 5.843L.05 23.5l5.79-1.47A11.941 11.941 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.647-.494-5.17-1.355l-.37-.217-3.438.872.902-3.337-.24-.385A9.942 9.942 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Order
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHARGERS -->
+  <div class="card" data-category="charger">
+    <div class="card-img">⚡</div>
+    <div class="card-body">
+      <div class="card-category">Charger</div>
+      <div class="card-name">65W GaN USB-C Fast Charger</div>
+      <div class="card-desc">Compact, supports laptops, phones & tablets. Dual USB-C + USB-A ports.</div>
+      <div class="card-footer">
+        <div class="card-price">K 220 <span>each</span></div>
+        <a class="card-wa" href="https://wa.me/260975436254?text=Hi!%20I'm%20interested%20in%20the%2065W%20GaN%20USB-C%20Fast%20Charger%20at%20K220." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.532 5.843L.05 23.5l5.79-1.47A11.941 11.941 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.647-.494-5.17-1.355l-.37-.217-3.438.872.902-3.337-.24-.385A9.942 9.942 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Order
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-category="charger">
+    <div class="card-img">🔋</div>
+    <div class="card-body">
+      <div class="card-category">Charger</div>
+      <div class="card-name">20W iPhone USB-C Charger</div>
+      <div class="card-desc">Fast-charge compatible with iPhone 12 and above. Compact plug design.</div>
+      <div class="card-footer">
+        <div class="card-price">K 120 <span>each</span></div>
+        <a class="card-wa" href="https://wa.me/260975436254?text=Hi!%20I'm%20interested%20in%20the%2020W%20iPhone%20USB-C%20Charger%20at%20K120." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.532 5.843L.05 23.5l5.79-1.47A11.941 11.941 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.647-.494-5.17-1.355l-.37-.217-3.438.872.902-3.337-.24-.385A9.942 9.942 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Order
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-category="charger">
+    <div class="card-img">🔌</div>
+    <div class="card-body">
+      <div class="card-category">Charger</div>
+      <div class="card-name">33W Android Fast Charger</div>
+      <div class="card-desc">Compatible with Samsung, Tecno, Infinix & most Android phones. Micro-USB + USB-C.</div>
+      <div class="card-footer">
+        <div class="card-price">K 100 <span>each</span></div>
+        <a class="card-wa" href="https://wa.me/260975436254?text=Hi!%20I'm%20interested%20in%20the%2033W%20Android%20Fast%20Charger%20at%20K100." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.532 5.843L.05 23.5l5.79-1.47A11.941 11.941 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.647-.494-5.17-1.355l-.37-.217-3.438.872.902-3.337-.24-.385A9.942 9.942 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Order
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- USB CABLES -->
+  <div class="card" data-category="cable">
+    <div class="card-img">🔗</div>
+    <div class="card-body">
+      <div class="card-category">USB Cable</div>
+      <div class="card-name">USB-C to USB-C Braided Cable (1m)</div>
+      <div class="card-desc">Heavy-duty nylon braid, supports 60W fast charging. Compatible with most USB-C devices.</div>
+      <div class="card-footer">
+        <div class="card-price">K 65 <span>each</span></div>
+        <a class="card-wa" href="https://wa.me/260975436254?text=Hi!%20I'm%20interested%20in%20the%20USB-C%20to%20USB-C%20Braided%20Cable%20at%20K65." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.532 5.843L.05 23.5l5.79-1.47A11.941 11.941 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.647-.494-5.17-1.355l-.37-.217-3.438.872.902-3.337-.24-.385A9.942 9.942 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Order
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-category="cable">
+    <div class="card-img">📱</div>
+    <div class="card-body">
+      <div class="card-category">USB Cable</div>
+      <div class="card-name">Lightning Cable (iPhone) 1m</div>
+      <div class="card-desc">MFI certified, fast data transfer & charging. Durable reinforced connector heads.</div>
+      <div class="card-footer">
+        <div class="card-price">K 75 <span>each</span></div>
+        <a class="card-wa" href="https://wa.me/260975436254?text=Hi!%20I'm%20interested%20in%20the%20Lightning%20Cable%20at%20K75." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.532 5.843L.05 23.5l5.79-1.47A11.941 11.941 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.647-.494-5.17-1.355l-.37-.217-3.438.872.902-3.337-.24-.385A9.942 9.942 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Order
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-category="cable">
+    <div class="card-img">🧵</div>
+    <div class="card-body">
+      <div class="card-category">USB Cable</div>
+      <div class="card-name">3-in-1 Multi Cable</div>
+      <div class="card-desc">USB-C, Micro-USB & Lightning in one cable. Charge all your devices with a single cable.</div>
+      <div class="card-footer">
+        <div class="card-price">K 90 <span>each</span></div>
+        <a class="card-wa" href="https://wa.me/260975436254?text=Hi!%20I'm%20interested%20in%20the%203-in-1%20Multi%20Cable%20at%20K90." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.532 5.843L.05 23.5l5.79-1.47A11.941 11.941 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.647-.494-5.17-1.355l-.37-.217-3.438.872.902-3.337-.24-.385A9.942 9.942 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Order
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCESSORIES -->
+  <div class="card" data-category="accessories">
+    <div class="card-img">🛡️</div>
+    <div class="card-body">
+      <div class="card-category">Accessories</div>
+      <div class="card-name">Tempered Glass Screen Protector</div>
+      <div class="card-desc">9H hardness, full coverage, anti-fingerprint. Available for iPhone & Samsung models.</div>
+      <div class="card-footer">
+        <div class="card-price">K 50 <span>each</span></div>
+        <a class="card-wa" href="https://wa.me/260975436254?text=Hi!%20I'm%20interested%20in%20the%20Tempered%20Glass%20Screen%20Protector%20at%20K50.%20Please%20let%20me%20know%20which%20models%20are%20available." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.532 5.843L.05 23.5l5.79-1.47A11.941 11.941 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.647-.494-5.17-1.355l-.37-.217-3.438.872.902-3.337-.24-.385A9.942 9.942 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Order
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-category="accessories">
+    <div class="card-img">💼</div>
+    <div class="card-body">
+      <div class="card-category">Accessories</div>
+      <div class="card-name">10,000mAh Power Bank</div>
+      <div class="card-desc">Dual USB output, LED indicator, slim design. Fits in your pocket, charges 2 phones.</div>
+      <div class="card-footer">
+        <div class="card-price">K 280 <span>each</span></div>
+        <a class="card-wa" href="https://wa.me/260975436254?text=Hi!%20I'm%20interested%20in%20the%2010000mAh%20Power%20Bank%20at%20K280." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.532 5.843L.05 23.5l5.79-1.47A11.941 11.941 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.647-.494-5.17-1.355l-.37-.217-3.438.872.902-3.337-.24-.385A9.942 9.942 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Order
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2025 ZedBay Gadgets · Kitwe, Zambia · <a href="https://wa.me/260975436254" target="_blank">+260 975 436 254</a></p>
+</footer>
+
+<script>
+function filterCards(category, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.card').forEach(card => {
+    if (category === 'all' || card.dataset.category === category) {
+      card.setAttribute('data-hidden', 'false');
+      card.style.display = '';
+    } else {
+      card.setAttribute('data-hidden', 'true');
+      card.style.display = 'none';
+    }
+  });
+}
+</script>
+</body>
+</html>
